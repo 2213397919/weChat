@@ -87,13 +87,55 @@ class weChat {
                 return Promise.resolve(res);
             })
     }
+
+    /**
+     * 创建菜单。
+     * @returns {Promise<void>}
+     */
+    async createMenu(menu){
+        try {
+            //获取access-token
+            const {access_token} = await this.getAccessToken();
+            //定义请求地址
+            const url = ` https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`;
+            //发送请求
+            const result = await rp({method: 'GET',url,json: true,body:menu});
+            return result;
+        }catch (e) {
+            return 'createMenu方法出了问题：' + e;
+        }
+    }
+    /**
+     * 删除菜单
+     * @return {Promise<*>}
+     */
+    async deleteMenu () {
+        try {
+            //获取access_token
+            const {access_token} = await this.fetchAccessToken();
+            //定义请求地址
+            const url = `https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=${access_token}`;
+            //发送请求
+            const result = await rp({method: 'GET', url, json: true});
+
+            return result;
+        } catch (e) {
+            return 'deleteMenu方法出了问题：' + e;
+        }
+    }
 }
+
+
+
+
 //声明一个自执行函数，来操作AccessToken。
 (async () =>{
     //实例化对象
     const w = new weChat();
+    //获取access_token
     let result = await w.fetchAccessToken();
     console.log(result);
-    // result = await w.fetchAccessToken();
-    // console.log(result);
+    //创建menu.
+    result = await w.createMenu(require('./menu'));
+    console.log(result);
 })();
