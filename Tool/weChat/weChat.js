@@ -130,7 +130,12 @@ class weChat {
 (async () =>{
     //实例化对象
     const w = new weChat();
-
+    //生成access_token
+    let accessTokens = await w.fetchAccessToken()
+    console.log(accessTokens);
+    accessTokens = await w.fetchAccessToken();
+    console.log(accessTokens);
+    //创建菜单。
     let result = await w.deleteMenu();
     console.log(result);
     result = await w.createMenu(require('./menu'));
