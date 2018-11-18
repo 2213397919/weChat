@@ -1,6 +1,8 @@
-//引入request-promise-native
+//引入request-promise-native，用来发送请求。
 const rp = require('request-promise-native');
+//引入文件系统，用来在本地读写文件。
 const {writeFile,readFile} = require('fs');
+//用来加密合成access_token。
 const {appID, appsecret} = require('../config');
 
 //class类
@@ -25,6 +27,7 @@ class weChat {
     //将得到的AccessToken保存下来。
      saveAccessToken(filePath,accessToken){
         return new Promise((resolve,reject) =>{
+            //转换成JSON字符串保存下来。
             writeFile(filePath,JSON.stringify(accessToken),err =>{
                 if (!err){
                     resolve();
@@ -54,6 +57,7 @@ class weChat {
     }
     //返回有效access_token的方法
     fetchAccessToken(){
+         //有access_token，有过期时间，且没有过期，说明access_token是有效的。
         if (this.access_token && this.expires_in && this.isValidAccessToken(this)){
             console.log('获取到啦');
             //说明access_token是有效的，返回this.access_token（）和this.expires_in（过期时间）
@@ -133,7 +137,7 @@ class weChat {
     //实例化对象
     const w = new weChat();
     //获取access_token
-    let result = await w.fetchAccessToken();
+    let result = await w.deleteMenu();
     console.log(result);
     //创建menu.
     result = await w.createMenu(require('./menu'));

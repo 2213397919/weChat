@@ -1,7 +1,6 @@
 
 //引入sha1
 const sha1 = require('sha1');
-
 //移入自己定义的模块
 const {getUserDataAsync, parseXMLDataAsync, formatMessage}= require('../list/tool');
 const template = require('./template');

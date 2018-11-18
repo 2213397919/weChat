@@ -1,4 +1,5 @@
 //由于有参数的传入，故需要暴露一个函数出去
+//返回xml数据给微信服务器，返回给用户。
 module.exports = options =>{
     //返回xml数据给微信服务器，提取出公共的部分。
     let reqMessage =`<xml>
