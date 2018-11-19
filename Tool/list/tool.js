@@ -1,5 +1,6 @@
 //引入解析xml的包
 const {parseString} = require('xml2js');
+const {writeFileAsync,readFileAsync} = require('fs');
 //要暴露出去的模块
 module.exports={
     //用来接收用户发过来的数据
@@ -41,4 +42,27 @@ module.exports={
         }
         return result;
     },
+    writeFileAsync (filePath,data){
+        return new Promise((resolve,reject) =>{
+            writeFile(filePath,JSON.stringify(data),err =>{
+                if (!err){
+                    resolve();
+                }else {
+                    reject('writeFileAsync :'+err);
+                }
+            })
+        })
+    },
+    readFileAsync(filePath){
+        return new Promise((resolve,reject) =>{
+            readFile(filePath,(err,data) =>{
+                if (!err){
+                    //读取的是buffer，需要转换成js对象。
+                    resolve(JSON.parse(data.toString()));
+                } else {
+                    reject('readFileAsync:'+err);
+                }
+            })
+        })
+    }
 }
