@@ -57,16 +57,16 @@ module.exports =  {
                     "type": "location_select",
                     "key": "rselfmenu_2_0"
                 },
-                /*{
+                {
                   "type": "media_id",
                   "name": "图片",
-                  "media_id": "MEDIA_ID1"
+                  "media_id": "K4kVx-8d03qbOddP_a4F6vsN6Z4In2M9YHLRV-Pw5Xw"
                 },
                 {
                   "type": "view_limited",
                   "name": "图文消息",
-                  "media_id": "MEDIA_ID2"
-                }*/
+                  "media_id": "K4kVx-8d03qbOddP_a4F6kRQTd1QIfR9si-PmBWADJw"
+                }
             ]
         }
     ]

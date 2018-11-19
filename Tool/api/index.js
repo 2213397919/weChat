@@ -19,5 +19,10 @@ module.exports = {
     },
     message:{
         sendall:`${prefix}message/mass/sendall?`
+    },
+    upload:{
+        uploadNews:`${prefix}material/add_news?`,
+        uploading:`${prefix}material/uploading?`,
+        uploadOther:`${prefix}material/add_material?`
     }
 }
