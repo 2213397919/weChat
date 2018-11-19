@@ -2,13 +2,14 @@
 const rp = require('request-promise-native');
 const {writeFile,readFile} = require('fs');
 const {appID, appsecret} = require('../config');
+const api = require('../api');
 
 //class类
 class weChat {
     //用来获取access-token
     async getAccessToken (){
         //定义请求地址
-        const url = `https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appID}&secret=${appsecret}`;
+        const url = `${api.accessToken}appid=${appID}&secret=${appsecret}`;
         //发送请求
         const result = await rp({method:'GET',url,json:true});
         //设置access_token的过期时间, 提前5分钟刷新
@@ -54,6 +55,7 @@ class weChat {
     }
     //返回有效access_token的方法
     fetchAccessToken(){
+         //如果access_token是有效的，直接返回，不用执行下面的逻辑。
         if (this.access_token && this.expires_in && this.isValidAccessToken(this)){
             console.log('获取到啦');
             //说明access_token是有效的，返回this.access_token（）和this.expires_in（过期时间）
@@ -69,6 +71,7 @@ class weChat {
                     //过期，重新获取AccessToken，并在本地保存。
                     const accessToken = await this.getAccessToken();
                     await this.saveAccessToken('./accessToken.txt', accessToken);
+                    //作为then函数返回值， 返回promise对象。
                     return accessToken;
                 }
             })
@@ -76,11 +79,11 @@ class weChat {
             .catch(async err =>{
                 const accessToken = await this.getAccessToken();
                 await this.saveAccessToken('./accessToken.txt', accessToken);
+                //作为then函数返回值， 返回promise对象。
                 return accessToken
             })
-            //第一个.then里面return res,返回的是一个promise对象。
+            //不管上面成功或者失败都会来到这
             .then(res => {
-                //不管上面成功或者失败都会来到这
                 this.access_token = res.access_token;
                 this.expires_in = res.expires_in;
 
@@ -92,12 +95,13 @@ class weChat {
      * @param menu
      * @return {Promise<*>}
      */
+    //创建自定义菜单
     async createMenu (menu) {
         try {
             //获取access_token
             const {access_token} = await this.fetchAccessToken();
             //定义请求地址
-            const url = `https://api.weixin.qq.com/cgi-bin/menu/create?access_token=${access_token}`;
+            const url = `${api.menu.create}access_token=${access_token}`;
             //发送请求
             const result = await rp({method: 'POST', url, json: true, body: menu});
 
@@ -111,18 +115,73 @@ class weChat {
      * 删除菜单
      * @return {Promise<*>}
      */
+    //删除菜单
     async deleteMenu () {
         try {
             //获取access_token
             const {access_token} = await this.fetchAccessToken();
             //定义请求地址
-            const url = `https://api.weixin.qq.com/cgi-bin/menu/delete?access_token=${access_token}`;
+            const url = `${api.menu.delete}access_token=${access_token}`;
             //发送请求
             const result = await rp({method: 'GET', url, json: true});
 
             return result;
         } catch (e) {
             return 'deleteMenu方法出了问题：' + e;
+        }
+    }
+
+    /**
+     * 创建用户标签
+     * @name 标签名
+     * @returns {Promise<void>}
+     */
+    //用户管理，创建用户标签
+    async createTag(name) {
+        try {
+            //获取access_token
+            const {access_token} = await this.fetchAccessToken();
+            //获取请求地址
+            const url = `${api.tag.create}access_token=${access_token}`;
+            //发送请求
+            const result = await rp({method: 'POST', url, json: true, body: {'tag': {'name':name}}});
+            return result;
+        }catch (e) {
+            return console.log('createTag'+e);
+        }
+    }
+
+    /**
+     *获取公众号已创建的标签
+     * @param tagid  创建标签的ID
+     * @param next_openid 由于每次只能拉去10000人，值为第10000人的openid.
+     * @returns {Promise<string>}
+     */
+    //获取公众号已创建的标签
+    async getTagUsers (tagid, next_openid = '') {
+        try {
+            const {access_token} = await this.fetchAccessToken();
+            const url = `${api.tag.getUsers}access_token=${access_token}`;
+            return await rp({method: 'POST', url, json: true, body: {tagid, next_openid}});
+        } catch (e) {
+            return 'getTagUsers方法出了问题' + e;
+        }
+    }
+
+    /**
+     *用户管理,批量为用户打上标签。
+     * @param openid_list 用户列表
+     * @param tagid 创建标签的id
+     * @returns {Promise<string>}
+     */
+    //用户管理,批量为用户打上标签。
+    async batchUsersTag (openid_list, tagid) {
+        try {
+            const {access_token} = await this.fetchAccessToken();
+            const url = `${api.tag.batch}access_token=${access_token}`;
+            return await rp({method: 'POST', url, json: true, body: {tagid, openid_list}});
+        } catch (e) {
+            return 'batchUsersTag方法出了问题' + e;
         }
     }
 }
@@ -140,4 +199,15 @@ class weChat {
     console.log(result);
     result = await w.createMenu(require('./menu'));
     console.log(result);
+    //用户管理
+    let createTags = await w.createTag('璀璨星光');
+    console.log(createTags);
+    let createTags1 = await w.batchUsersTag([
+        'orvpe1YBxSXdkGybDAXKrrZFlSmk',
+        'orvpe1ThAMshf2rb6uE1aPZg0tNA',
+        'orvpe1REEIaGOuZsDqZMEpG6eV8w'
+    ],createTags.tag.id);
+    console.log(createTags1);
+    let createTags2 = await w.getTagUsers(createTags.tag.id);
+    console.log(createTags2);
 })();
