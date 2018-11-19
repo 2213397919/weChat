@@ -1,3 +1,4 @@
+const {url} = require('../config');
 //暴露一个回复模块出去
 module.exports = message =>{
     //初始化一个配置对象
@@ -25,6 +26,8 @@ module.exports = message =>{
                 options.description = '跳跃在纸上的精灵，施展出花样的魔力。';
                 options.picUrl = 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1542420692&di=e2dddb8a76c0773010271e6f085fe1d7&src=http://www.quwan.com/images/201411/1416853425889145838.jpg';
                 options.url = 'https://2213397919.github.io/album/';
+            }else if(message.Content==='4'){
+                content = `<a href="${url}/search">search页面</a>`;
             }
     }else if (message.MsgType === 'voice'){
         content = `语音识别结果为: ${message.Recognition}`;

@@ -2,5 +2,6 @@
 module.exports ={
     appID : 'wx5cc52dd278ee90c9',
     appsecret : '69240a0f00303ace60dd352a1c552c0a',
-    token : 'zsatcyf0605'
+    token : 'zsatcyf0605',
+    url: 'http://04461615.ngrok.io'
 }

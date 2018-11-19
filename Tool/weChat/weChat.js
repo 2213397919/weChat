@@ -272,8 +272,8 @@ class weChat {
     console.log(result);
     result = await w.createMenu(require('./menu'));
     console.log(result);
-    //用户管理
-    let createTags = await w.createTag('璀璨星光者');
+    // 用户管理
+    let createTags = await w.createTag('璀璨');
     console.log(createTags);
     let createTags1 = await w.batchUsersTag([
         'orvpe1YBxSXdkGybDAXKrrZFlSmk',
@@ -284,3 +284,4 @@ class weChat {
     let createTags2 = await w.getTagUsers(createTags.tag.id);
     console.log(createTags2);
 })();
+module.exports = weChat;
