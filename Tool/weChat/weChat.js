@@ -257,31 +257,56 @@ class weChat {
             return 'batchUsersTag方法出了问题' + e;
         }
     }
-}
+    //群发消息
+    async sendAllByTag(options) {
+        try {
+            const {access_token} = await this.fetchAccessToken();
+            const url = `${api.message.sendall}access_token=${access_token}`;
+            return await rp({method: 'POST', url, json: true, body: options});
+        }catch (e) {
+            return 'sendAllByTag方法出了问题' + e;
+        }
+        }
+    }
 //声明一个自执行函数，来操作AccessToken。
 (async () =>{
     //实例化对象
     const w = new weChat();
     //生成access_token
-    let accessTokens = await w.fetchAccessToken()
-    console.log(accessTokens);
-    accessTokens = await w.fetchAccessToken();
-    console.log(accessTokens);
-    //创建菜单。
-    let result = await w.deleteMenu();
-    console.log(result);
-    result = await w.createMenu(require('./menu'));
-    console.log(result);
+    // let accessTokens = await w.fetchAccessToken()
+    // console.log(accessTokens);
+    // accessTokens = await w.fetchAccessToken();
+    // console.log(accessTokens);
+    // //创建菜单。
+    // let result = await w.deleteMenu();
+    // console.log(result);
+    // result = await w.createMenu(require('./menu'));
+    // console.log(result);
     // 用户管理
-    let createTags = await w.createTag('璀璨');
-    console.log(createTags);
-    let createTags1 = await w.batchUsersTag([
-        'orvpe1YBxSXdkGybDAXKrrZFlSmk',
-        'orvpe1ThAMshf2rb6uE1aPZg0tNA',
-        'orvpe1REEIaGOuZsDqZMEpG6eV8w'
-    ],createTags.tag.id);
-    console.log(createTags1);
-    let createTags2 = await w.getTagUsers(createTags.tag.id);
-    console.log(createTags2);
-})();
+    // let createTags = await w.createTag('璀璨');
+    // console.log(createTags);
+    // let createTags1 = await w.batchUsersTag([
+    //     'orvpe1YBxSXdkGybDAXKrrZFlSmk',
+    //     'orvpe1ThAMshf2rb6uE1aPZg0tNA',
+    //     'orvpe1REEIaGOuZsDqZMEpG6eV8w'
+    // ],createTags.tag.id);
+    // console.log(createTags1);
+    // let createTags2 = await w.getTagUsers(createTags.tag.id);
+    // console.log(createTags2);
+    //群发消息
+    let result = await w.sendAllByTag({
+        "filter":{
+            "is_to_all":false,
+            "tag_id": 101
+        },
+        "text":{
+            "content": "今天天气真晴朗~"
+        },
+        "msgtype":"text"
+    });
+    console.log(result);
+    // { errcode: 40001,
+    //     errmsg: 'invalid credential, access_token is invalid or not latest hint: [vmSqVA0652vr65!]' }
+
+})()
 module.exports = weChat;

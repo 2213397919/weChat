@@ -10,7 +10,7 @@ const puppeteer = require('puppeteer');
 (async () => {
     //1. 打开浏览器
     const browser = await puppeteer.launch({
-        headless:true
+        headless:false
     });
     //2. 打开标签页
     const page = await browser.newPage();

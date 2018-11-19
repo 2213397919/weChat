@@ -16,5 +16,8 @@ module.exports = {
         create: `${prefix}tags/create?`,
         getUsers: `${prefix}user/tag/get?`,
         batch: `${prefix}tags/members/batchtagging?`
+    },
+    message:{
+        sendall:`${prefix}message/mass/sendall?`
     }
 }
