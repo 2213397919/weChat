@@ -95,7 +95,7 @@ class weChat {
                 return Promise.resolve(res);
             })
     }
-
+    //微信的网页开发
     /**
      * 获取ticket
      * @returns {Promise<{ticket: string, ticket_expires_in: number}>}
@@ -321,10 +321,10 @@ class weChat {
     //实例化对象
     const w = new weChat();
     //生成access_token
-    // let accessTokens = await w.fetchAccessToken()
-    // console.log(accessTokens);
-    // accessTokens = await w.fetchAccessToken();
-    // console.log(accessTokens);
+    let accessTokens = await w.fetchAccessToken()
+    console.log(accessTokens);
+    accessTokens = await w.fetchAccessToken();
+    console.log(accessTokens);
     // //创建菜单。
     // let result = await w.deleteMenu();
     // console.log(result);
@@ -356,53 +356,53 @@ class weChat {
     // { errcode: 40001,
     //     errmsg: 'invalid credential, access_token is invalid or not latest hint: [vmSqVA0652vr65!]' }
     //上传图片获取media_id
-    let result1 = await w.uploadMaterial('image', './img/3.jpg');
-    console.log(result1);
-    // 上传图片获取地址
-    let result2 = await w.uploadMaterial('pic', './img/4.jpg');
-        console.log(result2);
-    // 上传图文消息
-    let result3 = await w.uploadMaterial('news', {
-        "articles": [{
-            "title": '曹宝宝',
-            "thumb_media_id": result1.media_id,
-            "author": '顺大屌',
-            "digest": '甜蜜蜜',
-            "show_cover_pic": 1,
-            "content": `<!DOCTYPE html>
-                  <html lang="en">
-                  <head>
-                    <meta charset="UTF-8">
-                    <title>Title</title>
-                  </head>
-                  <body>
-                    <h1>微信公众号开发</h1>
-                    <img src="${result2.url}">
-                  </body>
-                  </html>`,
-            "content_source_url": 'https://2213397919.github.io/3D-box/',
-            "need_open_comment":1,
-            "only_fans_can_comment":1
-        },
-            {
-                "title": '顺宝宝',
-                "thumb_media_id": result1.media_id,
-                "author": '张顺',
-                "digest": '甜言蜜语',
-                "show_cover_pic": 0,
-                "content": '再多的甜言蜜语，也抵不上早晨的一杯热粥。',
-                "content_source_url": 'https://2213397919.github.io/3D-box/',
-                "need_open_comment":0,
-                "only_fans_can_comment":0
-            }
-        ]
-    });
-        console.log(result3);
+    // let result1 = await w.uploadMaterial('image', './img/3.jpg');
+    // console.log(result1);
+    // // 上传图片获取地址
+    // let result2 = await w.uploadMaterial('pic', './img/4.jpg');
+    //     console.log(result2);
+    // // 上传图文消息
+    // let result3 = await w.uploadMaterial('news', {
+    //     "articles": [{
+    //         "title": '曹宝宝',
+    //         "thumb_media_id": result1.media_id,
+    //         "author": '顺大屌',
+    //         "digest": '甜蜜蜜',
+    //         "show_cover_pic": 1,
+    //         "content": `<!DOCTYPE html>
+    //               <html lang="en">
+    //               <head>
+    //                 <meta charset="UTF-8">
+    //                 <title>Title</title>
+    //               </head>
+    //               <body>
+    //                 <h1>微信公众号开发</h1>
+    //                 <img src="${result2.url}">
+    //               </body>
+    //               </html>`,
+    //         "content_source_url": 'https://2213397919.github.io/3D-box/',
+    //         "need_open_comment":1,
+    //         "only_fans_can_comment":1
+    //     },
+    //         {
+    //             "title": '顺宝宝',
+    //             "thumb_media_id": result1.media_id,
+    //             "author": '张顺',
+    //             "digest": '甜言蜜语',
+    //             "show_cover_pic": 0,
+    //             "content": '再多的甜言蜜语，也抵不上早晨的一杯热粥。',
+    //             "content_source_url": 'https://2213397919.github.io/3D-box/',
+    //             "need_open_comment":0,
+    //             "only_fans_can_comment":0
+    //         }
+    //     ]
+    // });
+    //     console.log(result3);
 
   //删除菜单，再重新创建
   // let result = await w.deleteMenu();
   // console.log(result);
-  let result = await w.createMenu(require('./menu'));
-  console.log(result);
+  // let result = await w.createMenu(require('./menu'));
+  // console.log(result);
 })()
 module.exports = weChat;
