@@ -1,6 +1,8 @@
 const {url} = require('../config');
+//引入发送文本的库
+const rp = require('request-promise-native');
 //暴露一个回复模块出去
-module.exports = message =>{
+module.exports = async message =>{
     //初始化一个配置对象
     let options = {
         //都是一些公共的属性，其他属性，需要时自己手动添加，比如，视频等
@@ -14,43 +16,60 @@ module.exports = message =>{
     let content = '';
     if (message.MsgType === 'text'){
             //判断用户发送消息的内容，根据内容返回特定的响应
-            if (message.Content === '1'){
-                content='爱你一万年，今生永不变。';
-            }else if (message.Content === '2'){
-                content='给我一杯忘情水，让我永远不忘怀。';
-            } else if (message.Content.includes('爱')){
-                content='嘣一个，么么哒';
-            }else if (message.Content==='3'){
+            if (message.Content === '预告片'){
+                //图文消息
                 options.msgType='news';
-                options.title = '三行情诗';
-                options.description = '跳跃在纸上的精灵，施展出花样的魔力。';
-                options.picUrl = 'https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1542420692&di=e2dddb8a76c0773010271e6f085fe1d7&src=http://www.quwan.com/images/201411/1416853425889145838.jpg';
-                options.url = 'https://2213397919.github.io/album/';
-            }else if(message.Content==='4'){
-                content = `<a href="${url}/search">search页面</a>`;
+                options.title='渤海电影预告片';
+                options.description='有即将上映的电影';
+                options.picUrl='http://mmbiz.qpic.cn/mmbiz_jpg/z37iaicGzwN4U5huLQ3uYvTQaoibWibYvHYLUicbzwXiau3M3Wwicfjavb11KCzFqoLibYHr46fJ3Zod4TZMfSZJ5LjPHg/0?wx_fmt=jpeg';
+                options.url=`${url}/movie`;
+            }else if (message.Content === '语音识别'){
+                //图文消息
+                options.msgType='news';
+                options.title='语音识别电影';
+                options.description='这里可以使用语音来搜索电影';
+                options.picUrl='http://mmbiz.qpic.cn/mmbiz_jpg/z37iaicGzwN4U5huLQ3uYvTQaoibWibYvHYLUicbzwXiau3M3Wwicfjavb11KCzFqoLibYHr46fJ3Zod4TZMfSZJ5LjPHg/0?wx_fmt=jpeg';
+                options.url=`${url}/search`;
+            } else{
+                //搜索相关电影,调用豆瓣的接口
+                const url = `http://api.douban.com/v2/movie/search`;
+                const {subjects} = await rp({method: 'GET', url, json: true, qs: {count: 1, q: message.Content}});
+                options.msgType = 'news';
+                options.title = subjects[0].title;
+                options.description = `评分：${subjects[0].rating.average}`;
+                options.picUrl = subjects[0].images.small;
+                options.url = subjects[0].alt;
             }
     }else if (message.MsgType === 'voice'){
-        content = `语音识别结果为: ${message.Recognition}`;
-    }else if (message.MsgType === 'location'){
-        //用户主动发送位置
-        content = `纬度：${message.Location_X}  经度：${message.Location_Y} 地图的缩放大小：${message.Scale} 位置详情：${message.Label}`;
-    } else if (options.MsgType === 'event'){
+        //搜索相关电影,调用豆瓣的接口
+        const url = `http://api.douban.com/v2/movie/search`;
+        const {subjects} = await rp({method: 'GET', url, json: true, qs: {count: 1, q: message.Recognition}});
+        options.msgType = 'news';
+        options.title = subjects[0].title;
+        options.description = `评分：${subjects[0].rating.average}`;
+        options.picUrl = subjects[0].images.small;
+        options.url = subjects[0].alt;
+    } else if (message.MsgType === 'event'){
         if (message.Event === 'subscribe') {
             //关注事件/订阅事件
-            content = '欢迎您关注本公众号，该该公众号用于三行情书大赛。';
-            if (message.EventKey) {
-                //说明扫了带参数的二维码
-                content = '欢迎您关注公众号, 扫了带参数的二维码';
-            }
+            content = `欢迎您关注本电影众号。\n
+                       回复 预告片 查看硅谷电影预告片 /n
+                回复 语音识别 查看语音识别电影 /n
+                回复 任意文本 搜索相关的电影 /n
+                回复 任意语音 搜索相关的电影 /n
+                也可以点击<a href="${url}/search">语音识别</a>来跳转`;
         } else if (message.Event === 'unsubscribe') {
             //取消关注事件
             console.log('手下留情');
-        } else if (message.Event === 'LOCATION') {
-            //用户初次访问公众号，会自动获取地理位置
-            content = `纬度：${message.Latitude} 经度：${message.Longitude}`;
-        } else if (message.Event === 'CLICK') {
-            //用户初次访问公众号，会自动获取地理位置
-            content = `用户点击了：${message.EventKey}`;
+        }  else if (message.Event === 'CLICK') {
+           if (message.EventKey === 'help') {
+               content = `欢迎您关注本电影众号。/n
+                       回复 预告片 查看硅谷电影预告片 /n
+                回复 语音识别 查看语音识别电影 /n
+                回复 任意文本 搜索相关的电影 /n
+                回复 任意语音 搜索相关的电影 /n
+                也可以点击<a href="${url}/search">语音识别</a>来跳转`;
+           }
         }
     }
     options.content = content;

@@ -1,71 +1,32 @@
 /*
   菜单配置模块
  */
+const {url} = require('../config');
 
 module.exports =  {
     "button":[
         {
-            "type":"click",
-            "name":"戳我啊",
-            "key":"戳我啊"
+            "type":"view",
+            "name":"预告片🎥",
+            "url": `${url}/movie`
         },
         {
-            "name":"个性化",
-            "sub_button":[
-                {
-                    "type":"view",
-                    "name":"跳转链接☀",
-                    "url":"https://2213397919.github.io/3D-box/"
-                },
-                {
-                    "type": "scancode_waitmsg",
-                    "name": "扫码带提示🌸",
-                    "key": "rselfmenu_0_0",
-                    "sub_button": [ ]
-                },
-                {
-                    "type": "scancode_push",
-                    "name": "扫码推事件💋",
-                    "key": "rselfmenu_0_1",
-                    "sub_button": [ ]
-                },
-                {
-                    "type": "pic_sysphoto",
-                    "name": "系统拍照发图🎉",
-                    "key": "rselfmenu_1_0",
-                    "sub_button": [ ]
-                },
-                {
-                    "type": "pic_photo_or_album",
-                    "name": "拍照或者相册发图",
-                    "key": "rselfmenu_1_1",
-                    "sub_button": [ ]
-                },
-            ]
+            "type":"view",
+            "name":"语音识别🎤",
+            "url":`${url}/search`
         },
         {
-            "name":"小功能",
+            "name":"戳我啊👈",
             "sub_button":[
                 {
-                    "type": "pic_weixin",
-                    "name": "微信相册发图",
-                    "key": "rselfmenu_1_2",
-                    "sub_button": [ ]
+                    "type": "click",
+                    "name": "新手指引",
+                    "key": "help",
                 },
                 {
-                    "name": "发送位置",
-                    "type": "location_select",
-                    "key": "rselfmenu_2_0"
-                },
-                {
-                  "type": "media_id",
-                  "name": "图片",
-                  "media_id": "K4kVx-8d03qbOddP_a4F6vsN6Z4In2M9YHLRV-Pw5Xw"
-                },
-                {
-                  "type": "view_limited",
-                  "name": "图文消息",
-                  "media_id": "K4kVx-8d03qbOddP_a4F6kRQTd1QIfR9si-PmBWADJw"
+                    "name": "官网",
+                    "type": "view",
+                    "url": "https://movie.douban.com/"
                 }
             ]
         }

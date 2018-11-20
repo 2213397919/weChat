@@ -321,15 +321,15 @@ class weChat {
     //实例化对象
     const w = new weChat();
     //生成access_token
-    let accessTokens = await w.fetchAccessToken()
-    console.log(accessTokens);
-    accessTokens = await w.fetchAccessToken();
-    console.log(accessTokens);
-    // //创建菜单。
-    // let result = await w.deleteMenu();
-    // console.log(result);
-    // result = await w.createMenu(require('./menu'));
-    // console.log(result);
+    // let accessTokens = await w.fetchAccessToken()
+    // console.log(accessTokens);
+    // accessTokens = await w.fetchAccessToken();
+    // console.log(accessTokens);
+    //生成ticket
+    // let Ticket =await w.fetchTicket();
+    // console.log(Ticket);
+    // Ticket = await  w.fetchTicket();
+    // console.log(Ticket);
     // 用户管理
     // let createTags = await w.createTag('璀璨');
     // console.log(createTags);
@@ -358,7 +358,7 @@ class weChat {
     //上传图片获取media_id
     // let result1 = await w.uploadMaterial('image', './img/3.jpg');
     // console.log(result1);
-    // // 上传图片获取地址
+    // 上传图片获取地址
     // let result2 = await w.uploadMaterial('pic', './img/4.jpg');
     //     console.log(result2);
     // // 上传图文消息
@@ -402,7 +402,7 @@ class weChat {
   //删除菜单，再重新创建
   // let result = await w.deleteMenu();
   // console.log(result);
-  // let result = await w.createMenu(require('./menu'));
+  // result = await w.createMenu(require('./menu'));
   // console.log(result);
 })()
 module.exports = weChat;

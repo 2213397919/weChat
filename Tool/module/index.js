@@ -11,7 +11,10 @@ const trailersSchema = new mongoose.Schema({
     image: String,
     summary: String,
     src: String,
-    doubanId: String
+    doubanId: String,
+    coverKey:String,
+    imageKey:String,
+    videoKey:String
 })
 
 const Trailers = mongoose.model('trailers', trailersSchema);

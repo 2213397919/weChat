@@ -43,8 +43,8 @@ module.exports = () =>{
             //格式化数据
             const message = formatMessage(jsData);
             console.log(message);
-            //
-            const options = reply(message);
+            //由于在reply里面改动过，需要写成promise对象
+            const options = await reply(message);
             //封装一个模块，处理用户需要回复的消息。返回xml消息给微信服务器,
             const reqMessage = template(options);
             //返回xml消息给微信服务器,微信服务器自动将消息发送给用户。
