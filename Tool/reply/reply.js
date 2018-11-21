@@ -53,21 +53,21 @@ module.exports = async message =>{
         if (message.Event === 'subscribe') {
             //关注事件/订阅事件
             content = `欢迎您关注本电影众号。\n
-                       回复 预告片 查看硅谷电影预告片 /n
-                回复 语音识别 查看语音识别电影 /n
-                回复 任意文本 搜索相关的电影 /n
-                回复 任意语音 搜索相关的电影 /n
+                       回复 预告片 查看硅谷电影预告片 \n
+                回复 语音识别 查看语音识别电影 \n
+                回复 任意文本 搜索相关的电影 \n
+                回复 任意语音 搜索相关的电影 \n
                 也可以点击<a href="${url}/search">语音识别</a>来跳转`;
         } else if (message.Event === 'unsubscribe') {
             //取消关注事件
             console.log('手下留情');
         }  else if (message.Event === 'CLICK') {
            if (message.EventKey === 'help') {
-               content = `欢迎您关注本电影众号。/n
-                       回复 预告片 查看硅谷电影预告片 /n
-                回复 语音识别 查看语音识别电影 /n
-                回复 任意文本 搜索相关的电影 /n
-                回复 任意语音 搜索相关的电影 /n
+               content = `欢迎您关注本电影众号。\n
+                       回复 预告片 查看硅谷电影预告片 \n
+                回复 语音识别 查看语音识别电影 \n
+                回复 任意文本 搜索相关的电影 \n
+                回复 任意语音 搜索相关的电影 \n
                 也可以点击<a href="${url}/search">语音识别</a>来跳转`;
            }
         }

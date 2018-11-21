@@ -42,7 +42,7 @@ router.get('/search', async (req, res) => {
 router.get('/movie',async (req,res) =>{
     const movies= await Trailers.find({},{_id:0,__v:0,image:0,src:0,cover:0})
     // console.log('moooooooooooo-------------',movies)
-    res.render('movie',{movies});
+    res.render('movie',{movies,url});
 })
 router.post('/v3',async (req,res)=> {
     //接收用户发送过来的弹幕消息。
